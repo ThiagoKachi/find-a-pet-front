@@ -1,15 +1,23 @@
+import { Button } from '@/views/components/Button';
 import { Card, CardContent } from '@/views/components/Card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/views/components/Carousel';
 import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
+import { ArrowLeft } from 'lucide-react';
 
 export function OrgDetails() {
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-12">
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" size="default" className="flex items-center gap-2 p-0 text-primary hover:text-primary/80 hover:bg-transparent">
+          <ArrowLeft className="w-5 h-5 text-primary hover:text-primary/80" />
+          <span className="text-base font-medium">Voltar</span>
+        </Button>
+      </div>
       <div className="grid gap-8 md:grid-cols-2">
         <div className="grid gap-4">
           <div className="grid gap-1">
-            <h2 className="text-2xl font-bold">Organization Details</h2>
+            <h2 className="text-2xl font-bold text-zinc-700">Organization Details</h2>
             <p className="text-muted-foreground">View the key details about our organization.</p>
           </div>
           <Card>
@@ -62,9 +70,11 @@ export function OrgDetails() {
           </Card>
         </div>
         <div className="grid gap-4">
-          <div className="grid gap-1">
-            <h2 className="text-2xl font-bold">Pet Gallery</h2>
-            <p className="text-muted-foreground">Check out some of the adorable pets we have at our organization.</p>
+          <div className="grid gap-0">
+            <h2 className="text-2xl font-bold text-zinc-700">Pet Gallery</h2>
+            <p className="text-muted-foreground -mt-10">
+              Check out some of the adorable pets we have at our organization.
+            </p>
           </div>
           <Carousel className="w-full max-w-md mx-auto">
             <CarouselContent>
