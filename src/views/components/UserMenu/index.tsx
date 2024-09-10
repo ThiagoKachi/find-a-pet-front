@@ -6,6 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/views/components/DropdownMenu';
+import { Link } from '@tanstack/react-router';
 import { CircleUser, LogOut, Settings } from 'lucide-react';
 import { Button } from '../Button';
 
@@ -25,12 +26,16 @@ export function UserMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
           <Settings className="mr-2 h-4 w-4 text-zinc-700" />
-          <span className="text-zinc-700 font-medium">Configurações</span>
+          <Link to="/org-edit" className="text-zinc-700 font-medium">
+            Configurações
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
           <LogOut className="mr-2 h-4 w-4 text-zinc-700" />
-          <span className="text-zinc-700 font-medium">Sair</span>
+          <Link to="/login" className="text-zinc-700 font-medium">
+            Sair
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -1,6 +1,7 @@
 import { Button } from '@/views/components/Button';
 import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
+import { Link } from '@tanstack/react-router';
 import { PawPrint } from 'lucide-react';
 
 export function Login() {
@@ -14,7 +15,7 @@ export function Login() {
               <h1 className="text-3xl font-semibold text-primary">FindAFriend</h1>
             </div>
             <p className="text-balance text-muted-foreground">
-              Enter your email below to login to your account
+              Entre com seu email para acessar sua conta
             </p>
           </div>
           <div className="grid gap-4">
@@ -29,19 +30,19 @@ export function Login() {
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Senha</Label>
               </div>
               <Input id="password" type="password" required placeholder="********" />
             </div>
             <Button type="submit" className="w-full">
-              Login
+              Entrar
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{' '}
-            <a href="#" className="underline">
-              Sign up
-            </a>
+            Não tem uma conta?{' '}
+            <Link to="/signin" className="underline">
+              Cadastrar
+            </Link>
           </div>
         </div>
       </div>
