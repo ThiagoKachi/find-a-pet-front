@@ -6,20 +6,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/views/components/Textarea';
 import { Link } from '@tanstack/react-router';
 import { Upload } from 'lucide-react';
-import { AlertConfirmPetDelete } from './components/ConfirmDelete';
 import { UploadPetImages } from './components/PetImagesUpload';
 
-interface EditPetProps {
-  petID: string;
-}
-
-export function EditPet({ petID }: EditPetProps) {
+export function CreatePet() {
   return (
     <div className="w-full max-w-4xl mx-auto p-6 sm:p-8">
-      <h1>PET ID: {petID}</h1>
       <div className="flex justify-between mb-4 flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0">
-        <h1 className="text-2xl font-bold text-zinc-700">Editar informações do Pet</h1>
-        <AlertConfirmPetDelete />
+        <h1 className="text-2xl font-bold text-zinc-700">Criar novo Pet</h1>
       </div>
       <form className="grid gap-6">
         <div className="grid grid-cols-2 gap-6">
@@ -99,7 +92,7 @@ export function EditPet({ petID }: EditPetProps) {
           <Link to="/">
             <Button type="button" variant="outline">Cancelar</Button>
           </Link>
-          <Button type="submit">Salvar alterações</Button>
+          <Button type="submit">Salvar</Button>
         </div>
       </form>
     </div>

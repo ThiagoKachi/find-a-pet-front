@@ -1,4 +1,5 @@
 import { Badge } from '@/views/components/Badge';
+import { Link } from '@tanstack/react-router';
 import { PawPrint, Pencil } from 'lucide-react';
 
 export function PetCard() {
@@ -12,9 +13,11 @@ export function PetCard() {
         height="300"
         style={{ aspectRatio: '500/300', objectFit: 'cover' }}
       />
-      <div className="absolute top-2 right-2 bg-background/80 rounded-full p-2 cursor-pointer">
-        <Pencil className="w-5 h-5 text-foreground" />
-      </div>
+      <Link to='/pet-edit/$id' params={{ id: '1' }}>
+        <div className="absolute top-2 right-2 bg-background/80 rounded-full p-2 cursor-pointer">
+          <Pencil className="w-5 h-5 text-foreground" />
+        </div>
+      </Link>
       <Badge variant="default" className="hidden absolute top-4 left-2 md:inline-flex items-center gap-2 text-white py-1">
         <PawPrint className="w-4 h-4" />
           Disponível para adoção

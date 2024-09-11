@@ -8,10 +8,15 @@ import {
   Card,
   CardContent
 } from '@/views/components/Card';
+import { Link } from '@tanstack/react-router';
 
-export function PetCard() {
+interface PetCardProps {
+  petID: string;
+}
+
+export function PetCard({ petID }: PetCardProps) {
   return (
-    <a href="">
+    <Link to='/pet-details/$id' params={{ id: petID }}>
       <Card className="w-full max-w-full hover:shadow-lg transition-shadow duration-300 ease-in-out cursor-pointer">
         <div className="relative overflow-hidden">
           <img
@@ -41,6 +46,6 @@ export function PetCard() {
           </p>
         </CardContent>
       </Card>
-    </a>
+    </Link>
   );
 }

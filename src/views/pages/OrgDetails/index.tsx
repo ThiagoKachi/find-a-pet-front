@@ -3,13 +3,28 @@ import { Card, CardContent } from '@/views/components/Card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/views/components/Carousel';
 import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
+import { useRouter } from '@tanstack/react-router';
 import { ArrowLeft } from 'lucide-react';
 
-export function OrgDetails() {
+interface OrgDetailsProps {
+  orgID: string;
+}
+
+export function OrgDetails({ orgID }: OrgDetailsProps) {
+  const { history } = useRouter();
+
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-12">
+      <h1>ORG ID: {orgID}</h1>
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="default" className="flex items-center gap-2 p-0 text-primary hover:text-primary/80 hover:bg-transparent">
+        <Button
+          variant="ghost"
+          size="default"
+          className="flex items-center gap-2 p-0 text-primary hover:text-primary/80 hover:bg-transparent"
+          onClick={() => {
+            history.go(-1);
+          }}
+        >
           <ArrowLeft className="w-5 h-5 text-primary hover:text-primary/80" />
           <span className="text-base font-medium">Voltar</span>
         </Button>

@@ -3,12 +3,22 @@ import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
 import { RadioGroup, RadioGroupItem } from '@/views/components/RadioGroup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/views/components/Select';
+import { useNavigate } from '@tanstack/react-router';
 import { Filter } from 'lucide-react';
 import { useState } from 'react';
 import { PetCard } from './components/PetCard';
 
-export function Home() {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+interface HomeProps {
+  breed?: string;
+  age?: number;
+  size?: string;
+  gender?: string;
+}
+
+export function Home({ breed, age, size, gender }: HomeProps) {
+  const navigate = useNavigate({ from: '/' });
+
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-slate-50">
@@ -26,7 +36,10 @@ export function Home() {
             <div className="mb-2 grid gap-4 sm:grid-cols-2 md:gap-3 md:grid-cols-5 lg:grid-cols-5">
               <div className="grid gap-2">
                 <Label htmlFor="species">Espécie</Label>
-                <Select>
+                <Select
+                  defaultValue={breed}
+                  onValueChange={(value) => navigate({ search: (prev) => ({ ...prev, breed: value }) })}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione a espécie" />
                   </SelectTrigger>
@@ -40,11 +53,22 @@ export function Home() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="age">Idade</Label>
-                <Input id="age" type="number" placeholder="Digite a idade do pet" />
+                <Input
+                  id="age"
+                  type="number"
+                  placeholder="Digite a idade do pet"
+                  value={age || ''}
+                  onChange={(e) => {
+                    navigate({ search: (prev) => ({ ...prev, age: Number(e.target.value) }) });
+                  }}
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="size">Tamanho</Label>
-                <Select>
+                <Select
+                  defaultValue={size}
+                  onValueChange={(value) => navigate({ search: (prev) => ({ ...prev, size: value }) })}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione o tamanho" />
                   </SelectTrigger>
@@ -55,9 +79,14 @@ export function Home() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 ml-0.5">
                 <Label htmlFor="gender">Gênero</Label>
-                <RadioGroup id="gender" defaultValue="male" className="flex gap-2 -mt-4">
+                <RadioGroup
+                  id="gender"
+                  defaultValue={gender || 'all'}
+                  onValueChange={(value) => navigate({ search: (prev) => ({ ...prev, gender: value }) })}
+                  className="flex gap-2 sm:-mt-4"
+                >
                   <div className="flex items-center gap-2">
                     <RadioGroupItem id="gender-male" value="male" />
                     <Label htmlFor="gender-male">Macho</Label>
@@ -66,23 +95,27 @@ export function Home() {
                     <RadioGroupItem id="gender-female" value="female" />
                     <Label htmlFor="gender-female">Fêmea</Label>
                   </div>
+                  <div className="flex items-center gap-2">
+                    <RadioGroupItem id="all-gender" value="all" />
+                    <Label htmlFor="all-gender">Todos</Label>
+                  </div>
                 </RadioGroup>
               </div>
-              <div className="grid gap-2">
+              <div className="flex justify-end mt-1 md:mt-5">
                 <Label>&nbsp;</Label>
-                <Button className="w-full">Buscar</Button>
+                <Button className="w-full md:w-1/2">Buscar</Button>
               </div>
             </div>
           </div>
         )}
 
         <div className="grid gap-4 sm:grid-cols-2 md:gap-8 md:grid-cols-3 lg:grid-cols-4">
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
-          <PetCard />
+          <PetCard petID="1" />
+          <PetCard petID="2" />
+          <PetCard petID="3" />
+          <PetCard petID="4" />
+          <PetCard petID="5" />
+          <PetCard petID="6" />
         </div>
       </main>
     </div>

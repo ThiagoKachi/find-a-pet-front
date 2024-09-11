@@ -2,6 +2,7 @@ import { Button } from '@/views/components/Button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/views/components/Carousel';
 import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
+import { Link } from '@tanstack/react-router';
 import { Plus } from 'lucide-react';
 import { AlertConfirmOrgDelete } from './components/ConfirmDelete';
 import { PetCard } from './components/PetCard';
@@ -16,10 +17,12 @@ export function EditOrg() {
               Editar perfil da ORG
             </h1>
             <div className="flex gap-2 mb-2 md:mb-0">
-              <Button variant="default">
-                <Plus className="w-4 h-4 text-white mr-1" />
-                Adicionar Pet
-              </Button>
+              <Link to='/create-pet'>
+                <Button variant="default">
+                  <Plus className="w-4 h-4 text-white mr-1" />
+                  Adicionar Pet
+                </Button>
+              </Link>
               <AlertConfirmOrgDelete />
             </div>
           </div>

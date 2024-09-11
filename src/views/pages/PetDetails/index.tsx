@@ -2,14 +2,29 @@ import { Badge } from '@/views/components/Badge';
 import { Button } from '@/views/components/Button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/views/components/Carousel';
 import { Separator } from '@/views/components/Separator';
+import { useRouter } from '@tanstack/react-router';
 import { ArrowLeft, BuildingIcon, PawPrint, PawPrintIcon, Warehouse } from 'lucide-react';
 import { AdoptModalForm } from './components/AdoptModalForm';
 
-export function PetDetails() {
+interface PetDetailsProps {
+  petID: string;
+}
+
+export function PetDetails({ petID }: PetDetailsProps) {
+  const { history } = useRouter();
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+      <h1>PET ID: {petID}</h1>
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="default" className="flex items-center gap-2 p-0 text-primary hover:text-primary/80 hover:bg-transparent">
+        <Button
+          variant="ghost"
+          size="default"
+          className="flex items-center gap-2 p-0 text-primary hover:text-primary/80 hover:bg-transparent"
+          onClick={() => {
+            history.go(-1);
+          }}
+        >
           <ArrowLeft className="w-5 h-5 text-primary hover:text-primary/80" />
           <span className="text-base font-medium">Voltar</span>
         </Button>

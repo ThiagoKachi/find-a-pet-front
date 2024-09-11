@@ -5,11 +5,16 @@ import {
   CardHeader,
   CardTitle
 } from '@/views/components/Card';
+import { Link } from '@tanstack/react-router';
 import { Home, MailIcon, PawPrintIcon, PhoneIcon } from 'lucide-react';
 
-export function OrgCard() {
+interface OrgCardProps {
+  orgID: string;
+}
+
+export function OrgCard({ orgID }: OrgCardProps) {
   return (
-    <a href="">
+    <Link to='/org-details/$id' params={{ id: orgID }}>
       <Card className="w-full max-w-full hover:shadow-md transition-shadow duration-200">
         <CardHeader className="flex items-start gap-4 px-6 pt-6 pb-1">
           <div className="flex items-center gap-4 ml-0">
@@ -49,6 +54,6 @@ export function OrgCard() {
           </div>
         </CardContent>
       </Card>
-    </a>
+    </Link>
   );
 }
