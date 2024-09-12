@@ -1,12 +1,12 @@
 import { Header } from '@/views/components/Header';
-import { EditPet } from '@/views/pages/PetEdit';
+import { EditOrg } from '@/views/pages/OrgEdit';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/pet-edit')({
+export const Route = createFileRoute('/_authenticated/org-edit')({
   component: () => (
     <>
       <Header />
-      <EditPet />
+      <EditOrg />
     </>
   )
 });

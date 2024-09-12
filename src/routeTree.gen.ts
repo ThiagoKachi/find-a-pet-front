@@ -12,15 +12,16 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SigninImport } from './routes/signin'
-import { Route as PetEditImport } from './routes/pet-edit'
-import { Route as OrgsImport } from './routes/orgs'
-import { Route as OrgEditImport } from './routes/org-edit'
 import { Route as LoginImport } from './routes/login'
-import { Route as CreatePetImport } from './routes/create-pet'
-import { Route as IndexImport } from './routes/index'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
+import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
 import { Route as PetEditIdImport } from './routes/pet-edit/$id'
 import { Route as PetDetailsIdImport } from './routes/pet-details/$id'
 import { Route as OrgDetailsIdImport } from './routes/org-details/$id'
+import { Route as AuthenticatedPetEditImport } from './routes/_authenticated/pet-edit'
+import { Route as AuthenticatedOrgsImport } from './routes/_authenticated/orgs'
+import { Route as AuthenticatedOrgEditImport } from './routes/_authenticated/org-edit'
+import { Route as AuthenticatedCreatePetImport } from './routes/_authenticated/create-pet'
 
 // Create/Update Routes
 
@@ -29,39 +30,24 @@ const SigninRoute = SigninImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PetEditRoute = PetEditImport.update({
-  path: '/pet-edit',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const OrgsRoute = OrgsImport.update({
-  path: '/orgs',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const OrgEditRoute = OrgEditImport.update({
-  path: '/org-edit',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const LoginRoute = LoginImport.update({
   path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
 
-const CreatePetRoute = CreatePetImport.update({
-  path: '/create-pet',
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
+const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 const PetEditIdRoute = PetEditIdImport.update({
-  path: '/$id',
-  getParentRoute: () => PetEditRoute,
+  path: '/pet-edit/$id',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const PetDetailsIdRoute = PetDetailsIdImport.update({
@@ -74,22 +60,35 @@ const OrgDetailsIdRoute = OrgDetailsIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthenticatedPetEditRoute = AuthenticatedPetEditImport.update({
+  path: '/pet-edit',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedOrgsRoute = AuthenticatedOrgsImport.update({
+  path: '/orgs',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedOrgEditRoute = AuthenticatedOrgEditImport.update({
+  path: '/org-edit',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedCreatePetRoute = AuthenticatedCreatePetImport.update({
+  path: '/create-pet',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/create-pet': {
-      id: '/create-pet'
-      path: '/create-pet'
-      fullPath: '/create-pet'
-      preLoaderRoute: typeof CreatePetImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -99,33 +98,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/org-edit': {
-      id: '/org-edit'
-      path: '/org-edit'
-      fullPath: '/org-edit'
-      preLoaderRoute: typeof OrgEditImport
-      parentRoute: typeof rootRoute
-    }
-    '/orgs': {
-      id: '/orgs'
-      path: '/orgs'
-      fullPath: '/orgs'
-      preLoaderRoute: typeof OrgsImport
-      parentRoute: typeof rootRoute
-    }
-    '/pet-edit': {
-      id: '/pet-edit'
-      path: '/pet-edit'
-      fullPath: '/pet-edit'
-      preLoaderRoute: typeof PetEditImport
-      parentRoute: typeof rootRoute
-    }
     '/signin': {
       id: '/signin'
       path: '/signin'
       fullPath: '/signin'
       preLoaderRoute: typeof SigninImport
       parentRoute: typeof rootRoute
+    }
+    '/_authenticated/create-pet': {
+      id: '/_authenticated/create-pet'
+      path: '/create-pet'
+      fullPath: '/create-pet'
+      preLoaderRoute: typeof AuthenticatedCreatePetImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/org-edit': {
+      id: '/_authenticated/org-edit'
+      path: '/org-edit'
+      fullPath: '/org-edit'
+      preLoaderRoute: typeof AuthenticatedOrgEditImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/orgs': {
+      id: '/_authenticated/orgs'
+      path: '/orgs'
+      fullPath: '/orgs'
+      preLoaderRoute: typeof AuthenticatedOrgsImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/pet-edit': {
+      id: '/_authenticated/pet-edit'
+      path: '/pet-edit'
+      fullPath: '/pet-edit'
+      preLoaderRoute: typeof AuthenticatedPetEditImport
+      parentRoute: typeof AuthenticatedImport
     }
     '/org-details/$id': {
       id: '/org-details/$id'
@@ -143,129 +149,143 @@ declare module '@tanstack/react-router' {
     }
     '/pet-edit/$id': {
       id: '/pet-edit/$id'
-      path: '/$id'
+      path: '/pet-edit/$id'
       fullPath: '/pet-edit/$id'
       preLoaderRoute: typeof PetEditIdImport
-      parentRoute: typeof PetEditImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated/': {
+      id: '/_authenticated/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedIndexImport
+      parentRoute: typeof AuthenticatedImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface PetEditRouteChildren {
-  PetEditIdRoute: typeof PetEditIdRoute
+interface AuthenticatedRouteChildren {
+  AuthenticatedCreatePetRoute: typeof AuthenticatedCreatePetRoute
+  AuthenticatedOrgEditRoute: typeof AuthenticatedOrgEditRoute
+  AuthenticatedOrgsRoute: typeof AuthenticatedOrgsRoute
+  AuthenticatedPetEditRoute: typeof AuthenticatedPetEditRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
-const PetEditRouteChildren: PetEditRouteChildren = {
-  PetEditIdRoute: PetEditIdRoute,
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedCreatePetRoute: AuthenticatedCreatePetRoute,
+  AuthenticatedOrgEditRoute: AuthenticatedOrgEditRoute,
+  AuthenticatedOrgsRoute: AuthenticatedOrgsRoute,
+  AuthenticatedPetEditRoute: AuthenticatedPetEditRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
-const PetEditRouteWithChildren =
-  PetEditRoute._addFileChildren(PetEditRouteChildren)
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/create-pet': typeof CreatePetRoute
+  '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
-  '/org-edit': typeof OrgEditRoute
-  '/orgs': typeof OrgsRoute
-  '/pet-edit': typeof PetEditRouteWithChildren
   '/signin': typeof SigninRoute
+  '/create-pet': typeof AuthenticatedCreatePetRoute
+  '/org-edit': typeof AuthenticatedOrgEditRoute
+  '/orgs': typeof AuthenticatedOrgsRoute
+  '/pet-edit': typeof AuthenticatedPetEditRoute
   '/org-details/$id': typeof OrgDetailsIdRoute
   '/pet-details/$id': typeof PetDetailsIdRoute
   '/pet-edit/$id': typeof PetEditIdRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/create-pet': typeof CreatePetRoute
   '/login': typeof LoginRoute
-  '/org-edit': typeof OrgEditRoute
-  '/orgs': typeof OrgsRoute
-  '/pet-edit': typeof PetEditRouteWithChildren
   '/signin': typeof SigninRoute
+  '/create-pet': typeof AuthenticatedCreatePetRoute
+  '/org-edit': typeof AuthenticatedOrgEditRoute
+  '/orgs': typeof AuthenticatedOrgsRoute
+  '/pet-edit': typeof AuthenticatedPetEditRoute
   '/org-details/$id': typeof OrgDetailsIdRoute
   '/pet-details/$id': typeof PetDetailsIdRoute
   '/pet-edit/$id': typeof PetEditIdRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/create-pet': typeof CreatePetRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
-  '/org-edit': typeof OrgEditRoute
-  '/orgs': typeof OrgsRoute
-  '/pet-edit': typeof PetEditRouteWithChildren
   '/signin': typeof SigninRoute
+  '/_authenticated/create-pet': typeof AuthenticatedCreatePetRoute
+  '/_authenticated/org-edit': typeof AuthenticatedOrgEditRoute
+  '/_authenticated/orgs': typeof AuthenticatedOrgsRoute
+  '/_authenticated/pet-edit': typeof AuthenticatedPetEditRoute
   '/org-details/$id': typeof OrgDetailsIdRoute
   '/pet-details/$id': typeof PetDetailsIdRoute
   '/pet-edit/$id': typeof PetEditIdRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/create-pet'
+    | ''
     | '/login'
+    | '/signin'
+    | '/create-pet'
     | '/org-edit'
     | '/orgs'
     | '/pet-edit'
-    | '/signin'
     | '/org-details/$id'
     | '/pet-details/$id'
     | '/pet-edit/$id'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/create-pet'
     | '/login'
+    | '/signin'
+    | '/create-pet'
     | '/org-edit'
     | '/orgs'
     | '/pet-edit'
-    | '/signin'
     | '/org-details/$id'
     | '/pet-details/$id'
     | '/pet-edit/$id'
+    | '/'
   id:
     | '__root__'
-    | '/'
-    | '/create-pet'
+    | '/_authenticated'
     | '/login'
-    | '/org-edit'
-    | '/orgs'
-    | '/pet-edit'
     | '/signin'
+    | '/_authenticated/create-pet'
+    | '/_authenticated/org-edit'
+    | '/_authenticated/orgs'
+    | '/_authenticated/pet-edit'
     | '/org-details/$id'
     | '/pet-details/$id'
     | '/pet-edit/$id'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  CreatePetRoute: typeof CreatePetRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
-  OrgEditRoute: typeof OrgEditRoute
-  OrgsRoute: typeof OrgsRoute
-  PetEditRoute: typeof PetEditRouteWithChildren
   SigninRoute: typeof SigninRoute
   OrgDetailsIdRoute: typeof OrgDetailsIdRoute
   PetDetailsIdRoute: typeof PetDetailsIdRoute
+  PetEditIdRoute: typeof PetEditIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  CreatePetRoute: CreatePetRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
-  OrgEditRoute: OrgEditRoute,
-  OrgsRoute: OrgsRoute,
-  PetEditRoute: PetEditRouteWithChildren,
   SigninRoute: SigninRoute,
   OrgDetailsIdRoute: OrgDetailsIdRoute,
   PetDetailsIdRoute: PetDetailsIdRoute,
+  PetEditIdRoute: PetEditIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -280,40 +300,45 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/create-pet",
+        "/_authenticated",
         "/login",
-        "/org-edit",
-        "/orgs",
-        "/pet-edit",
         "/signin",
         "/org-details/$id",
-        "/pet-details/$id"
+        "/pet-details/$id",
+        "/pet-edit/$id"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/create-pet": {
-      "filePath": "create-pet.tsx"
+    "/_authenticated": {
+      "filePath": "_authenticated.tsx",
+      "children": [
+        "/_authenticated/create-pet",
+        "/_authenticated/org-edit",
+        "/_authenticated/orgs",
+        "/_authenticated/pet-edit",
+        "/_authenticated/"
+      ]
     },
     "/login": {
       "filePath": "login.tsx"
     },
-    "/org-edit": {
-      "filePath": "org-edit.tsx"
-    },
-    "/orgs": {
-      "filePath": "orgs.tsx"
-    },
-    "/pet-edit": {
-      "filePath": "pet-edit.tsx",
-      "children": [
-        "/pet-edit/$id"
-      ]
-    },
     "/signin": {
       "filePath": "signin.tsx"
+    },
+    "/_authenticated/create-pet": {
+      "filePath": "_authenticated/create-pet.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/org-edit": {
+      "filePath": "_authenticated/org-edit.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/orgs": {
+      "filePath": "_authenticated/orgs.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/pet-edit": {
+      "filePath": "_authenticated/pet-edit.tsx",
+      "parent": "/_authenticated"
     },
     "/org-details/$id": {
       "filePath": "org-details/$id.tsx"
@@ -322,8 +347,11 @@ export const routeTree = rootRoute
       "filePath": "pet-details/$id.tsx"
     },
     "/pet-edit/$id": {
-      "filePath": "pet-edit/$id.tsx",
-      "parent": "/pet-edit"
+      "filePath": "pet-edit/$id.tsx"
+    },
+    "/_authenticated/": {
+      "filePath": "_authenticated/index.tsx",
+      "parent": "/_authenticated"
     }
   }
 }
