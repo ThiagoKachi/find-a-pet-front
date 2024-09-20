@@ -1,5 +1,5 @@
 import { Header } from '@/views/components/Header';
-import { Home } from '@/views/pages/Home';
+import Home from '@/views/pages/Home';
 import { createFileRoute } from '@tanstack/react-router';
 import { z } from 'zod';
 
@@ -10,13 +10,13 @@ const schema = z.object({
   gender: z.string().optional(),
 });
 
-type PetsFilters = z.infer<typeof schema>;
+export type PetsFilters = z.infer<typeof schema>;
 
 export const Route = createFileRoute('/_authenticated/')({
   validateSearch: (search: Record<string, unknown>): PetsFilters => {
     return schema.parse(search);
   },
-  component: PetsComponent
+  component: PetsComponent,
 });
 
 function PetsComponent() {

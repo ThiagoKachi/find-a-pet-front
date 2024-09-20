@@ -4,9 +4,10 @@ import { Label } from '@/views/components/Label';
 import { RadioGroup, RadioGroupItem } from '@/views/components/RadioGroup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/views/components/Select';
 import { useNavigate } from '@tanstack/react-router';
-import { Filter } from 'lucide-react';
+import { Filter, PawPrint } from 'lucide-react';
 import { useState } from 'react';
 import { PetCard } from './components/PetCard';
+import { useHomeController } from './useHomeController';
 
 interface HomeProps {
   breed?: string;
@@ -15,10 +16,12 @@ interface HomeProps {
   gender?: string;
 }
 
-export function Home({ breed, age, size, gender }: HomeProps) {
+export default function Home({ breed, age, size, gender }: HomeProps) {
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
+
   const navigate = useNavigate({ from: '/' });
 
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const { data: pets, isLoading } = useHomeController();
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-slate-50">
@@ -109,14 +112,26 @@ export function Home({ breed, age, size, gender }: HomeProps) {
           </div>
         )}
 
-        <div className="grid gap-4 sm:grid-cols-2 md:gap-8 md:grid-cols-3 lg:grid-cols-4">
-          <PetCard petID="1" />
-          <PetCard petID="2" />
-          <PetCard petID="3" />
-          <PetCard petID="4" />
-          <PetCard petID="5" />
-          <PetCard petID="6" />
-        </div>
+        {isLoading ? (
+          <div className="flex items-start w-full justify-center mt-[10%] text-2xl font-bold gap-2 animate-pulse text-primary">
+            Loading pets...
+            <span>
+              <PawPrint className='w-8 h-8 -mt-1' />
+            </span>
+          </div>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2 md:gap-8 md:grid-cols-3 lg:grid-cols-4">
+            {pets!.length > 0 ? (
+              pets?.map((pet) => (
+                <PetCard key={pet.id} pet={pet} />
+              ))
+            ) : (
+              <div className="col-span-4">
+                <p className="text-center text-gray-500">Nenhum pet encontrado</p>
+              </div>
+            )}
+          </div>
+        )}
       </main>
     </div>
   );

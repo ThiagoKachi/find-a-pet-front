@@ -1,5 +1,7 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
-import { authProvider } from './app/store/authStore';
+import { useShallow } from 'zustand/react/shallow';
+import { useStore } from './app/store';
 import { routeTree } from './routeTree.gen';
 import { NotFound } from './views/pages/NotFound';
 
@@ -15,13 +17,19 @@ declare module '@tanstack/react-router' {
   }
 }
 
+const queryClient = new QueryClient();
+
 function App() {
-  const { isAuthenticated } = authProvider();
+  const { isAuthenticated } = useStore(useShallow(state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  })));
 
   return (
-    <div className="w-full h-screen bg-slate-50">
-      <RouterProvider router={router} context={{ isAuthenticated }} />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="w-full h-screen bg-slate-50">
+        <RouterProvider router={router} context={{ isAuthenticated }} />
+      </div>
+    </QueryClientProvider>
   );
 }
 
