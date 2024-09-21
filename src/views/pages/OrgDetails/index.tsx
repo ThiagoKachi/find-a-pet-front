@@ -6,16 +6,11 @@ import { Label } from '@/views/components/Label';
 import { useRouter } from '@tanstack/react-router';
 import { ArrowLeft } from 'lucide-react';
 
-interface OrgDetailsProps {
-  orgID: string;
-}
-
-export function OrgDetails({ orgID }: OrgDetailsProps) {
+export function OrgDetails() {
   const { history } = useRouter();
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-12">
-      <h1>ORG ID: {orgID}</h1>
       <div className="flex items-center gap-2">
         <Button
           variant="ghost"

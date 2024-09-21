@@ -1,27 +1,27 @@
+import { IPetsFilters } from '@/@types/Pets/IPetsFilters';
+import { Route } from '@/routes/_authenticated';
 import { Button } from '@/views/components/Button';
 import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
+import { Loading } from '@/views/components/Loading';
 import { RadioGroup, RadioGroupItem } from '@/views/components/RadioGroup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/views/components/Select';
 import { useNavigate } from '@tanstack/react-router';
 import { Filter, PawPrint } from 'lucide-react';
-import { useState } from 'react';
 import { PetCard } from './components/PetCard';
 import { useHomeController } from './useHomeController';
 
-interface HomeProps {
-  breed?: string;
-  age?: number;
-  size?: string;
-  gender?: string;
-}
-
-export default function Home({ breed, age, size, gender }: HomeProps) {
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
-
+export default function Home() {
+  const { species, age, size, gender } = Route.useSearch() as IPetsFilters;
   const navigate = useNavigate({ from: '/' });
 
-  const { data: pets, isLoading } = useHomeController();
+  const {
+    pets,
+    isLoading,
+    isFilterOpen,
+    handleOpenFilters,
+    refetch,
+  } = useHomeController();
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-slate-50">
@@ -29,28 +29,31 @@ export default function Home({ breed, age, size, gender }: HomeProps) {
 
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold text-primary">Nossos Pets</h1>
-          <Button variant="ghost" size="icon" onClick={() => setIsFilterOpen(!isFilterOpen)}>
+          <Button variant="ghost" size="icon" onClick={handleOpenFilters}>
             <Filter className="w-4 h-4 text-primary" />
           </Button>
         </div>
 
         {isFilterOpen && (
           <div className={`transition-all duration-300 ease-in-out ${isFilterOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-            <div className="mb-2 grid gap-4 sm:grid-cols-2 md:gap-3 md:grid-cols-5 lg:grid-cols-5">
+            <form className="mb-2 grid gap-4 sm:grid-cols-2 md:gap-3 md:grid-cols-5 lg:grid-cols-5" onSubmit={(e) => {
+              e.preventDefault();
+              refetch();
+            }}>
               <div className="grid gap-2">
                 <Label htmlFor="species">Espécie</Label>
                 <Select
-                  defaultValue={breed}
-                  onValueChange={(value) => navigate({ search: (prev) => ({ ...prev, breed: value }) })}
+                  defaultValue={species || 'all'}
+                  onValueChange={(value) => navigate({ search: (prev) => ({ ...prev, species: value }) })}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione a espécie" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="dog">Cachorro</SelectItem>
-                    <SelectItem value="cat">Gato</SelectItem>
-                    <SelectItem value="bird">Ave</SelectItem>
-                    <SelectItem value="other">Outro</SelectItem>
+                    <SelectItem value="Dog">Cachorro</SelectItem>
+                    <SelectItem value="Cat">Gato</SelectItem>
+                    <SelectItem value="Bird">Ave</SelectItem>
+                    <SelectItem value="all">Todos</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -69,7 +72,7 @@ export default function Home({ breed, age, size, gender }: HomeProps) {
               <div className="grid gap-2">
                 <Label htmlFor="size">Tamanho</Label>
                 <Select
-                  defaultValue={size}
+                  defaultValue={size || 'all'}
                   onValueChange={(value) => navigate({ search: (prev) => ({ ...prev, size: value }) })}
                 >
                   <SelectTrigger>
@@ -79,6 +82,7 @@ export default function Home({ breed, age, size, gender }: HomeProps) {
                     <SelectItem value="small">Pequeno</SelectItem>
                     <SelectItem value="medium">Médio</SelectItem>
                     <SelectItem value="large">Grande</SelectItem>
+                    <SelectItem value="all">Todos</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -108,20 +112,18 @@ export default function Home({ breed, age, size, gender }: HomeProps) {
                 <Label>&nbsp;</Label>
                 <Button className="w-full md:w-1/2">Buscar</Button>
               </div>
-            </div>
+            </form>
           </div>
         )}
 
         {isLoading ? (
-          <div className="flex items-start w-full justify-center mt-[10%] text-2xl font-bold gap-2 animate-pulse text-primary">
-            Loading pets...
-            <span>
-              <PawPrint className='w-8 h-8 -mt-1' />
-            </span>
-          </div>
+          <Loading
+            text='Loading pets...'
+            icon={<PawPrint className='w-8 h-8 -mt-1' />}
+          />
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 md:gap-8 md:grid-cols-3 lg:grid-cols-4">
-            {pets!.length > 0 ? (
+            {pets.length > 0 ? (
               pets?.map((pet) => (
                 <PetCard key={pet.id} pet={pet} />
               ))

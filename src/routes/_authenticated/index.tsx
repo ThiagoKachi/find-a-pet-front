@@ -4,7 +4,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { z } from 'zod';
 
 const schema = z.object({
-  breed: z.string().optional(),
+  species: z.string().optional(),
   age: z.number().optional(),
   size: z.string().optional(),
   gender: z.string().optional(),
@@ -20,17 +20,10 @@ export const Route = createFileRoute('/_authenticated/')({
 });
 
 function PetsComponent() {
-  const { breed, age, size, gender } = Route.useSearch();
-
   return (
     <>
       <Header />
-      <Home
-        breed={breed}
-        age={age}
-        size={size}
-        gender={gender}
-      />
+      <Home />
     </>
   );
 }

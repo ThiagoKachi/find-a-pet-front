@@ -1,5 +1,5 @@
 export interface IPetsFilters {
-  breed?: string;
+  species?: string;
   age?: number;
   size?: string;
   gender?: string;
