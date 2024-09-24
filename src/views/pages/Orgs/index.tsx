@@ -60,7 +60,7 @@ export function Orgs({ name, city }: OrgsProps) {
 
         {isLoading ? (
           <Loading
-            text='Loading orgs...'
+            text='Carregando orgs...'
             icon={<PawPrint className='w-8 h-8 -mt-1' />}
           />
         ) : (

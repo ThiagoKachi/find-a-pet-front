@@ -1,20 +1,35 @@
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogTrigger
 } from '@/views/components/AlertDialog';
 import { Button } from '@/views/components/Button';
 import { Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
-export function AlertConfirmOrgDelete() {
+interface AlertConfirmOrgDeleteProps {
+  onRemoveOrg: () => Promise<void>;
+  isLoading: boolean;
+}
+
+export function AlertConfirmOrgDelete({
+  onRemoveOrg,
+  isLoading
+}: AlertConfirmOrgDeleteProps) {
+  const [open, setOpen] = useState(false);
+
+  async function handleRemove() {
+    await onRemoveOrg();
+    setOpen(false);
+  }
+
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button variant="destructive">
           <Trash2 className="w-4 h-4 text-white mr-1" />
@@ -30,7 +45,14 @@ export function AlertConfirmOrgDelete() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-600 hover:bg-red-700">Excluir</AlertDialogAction>
+          <Button
+            variant={'destructive'}
+            className="bg-red-600 hover:bg-red-700"
+            onClick={handleRemove}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Aguarde...' : 'Excluir'}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

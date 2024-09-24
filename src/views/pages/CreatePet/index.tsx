@@ -5,12 +5,25 @@ import { RadioGroup, RadioGroupItem } from '@/views/components/RadioGroup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/views/components/Select';
 import { Textarea } from '@/views/components/Textarea';
 import { Link } from '@tanstack/react-router';
-import { Upload } from 'lucide-react';
+import { ArrowLeft, Upload } from 'lucide-react';
 import { UploadPetImages } from './components/PetImagesUpload';
 
 export function CreatePet() {
   return (
-    <div className="w-full max-w-4xl mx-auto p-6 sm:p-8">
+    <div className="w-full max-w-4xl mx-auto px-6 sm:px-8">
+      <div className="flex items-center gap-2 py-2">
+        <Button
+          variant="ghost"
+          size="default"
+          className="flex items-center gap-2 p-0 text-primary hover:text-primary/80 hover:bg-transparent"
+          onClick={() => {
+            history.go(-1);
+          }}
+        >
+          <ArrowLeft className="w-5 h-5 text-primary hover:text-primary/80" />
+          <span className="text-base font-medium">Voltar</span>
+        </Button>
+      </div>
       <div className="flex justify-between mb-4 flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0">
         <h1 className="text-2xl font-bold text-zinc-700">Criar novo Pet</h1>
       </div>
@@ -92,7 +105,7 @@ export function CreatePet() {
           <Link to="/">
             <Button type="button" variant="outline">Cancelar</Button>
           </Link>
-          <Button type="submit">Salvar</Button>
+          <Button type="submit" className='px-8'>Salvar</Button>
         </div>
       </form>
     </div>

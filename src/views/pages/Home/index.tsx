@@ -118,7 +118,7 @@ export default function Home() {
 
         {isLoading ? (
           <Loading
-            text='Loading pets...'
+            text='Carregando pets...'
             icon={<PawPrint className='w-8 h-8 -mt-1' />}
           />
         ) : (
