@@ -11,7 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SigninImport } from './routes/signin'
+import { Route as SignupImport } from './routes/signup'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
@@ -25,8 +25,8 @@ import { Route as AuthenticatedCreatePetImport } from './routes/_authenticated/c
 
 // Create/Update Routes
 
-const SigninRoute = SigninImport.update({
-  path: '/signin',
+const SignupRoute = SignupImport.update({
+  path: '/signup',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -98,11 +98,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/signin': {
-      id: '/signin'
-      path: '/signin'
-      fullPath: '/signin'
-      preLoaderRoute: typeof SigninImport
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
     '/_authenticated/create-pet': {
@@ -189,7 +189,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
-  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/create-pet': typeof AuthenticatedCreatePetRoute
   '/org-edit': typeof AuthenticatedOrgEditRoute
   '/orgs': typeof AuthenticatedOrgsRoute
@@ -202,7 +202,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
-  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/create-pet': typeof AuthenticatedCreatePetRoute
   '/org-edit': typeof AuthenticatedOrgEditRoute
   '/orgs': typeof AuthenticatedOrgsRoute
@@ -217,7 +217,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
-  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/_authenticated/create-pet': typeof AuthenticatedCreatePetRoute
   '/_authenticated/org-edit': typeof AuthenticatedOrgEditRoute
   '/_authenticated/orgs': typeof AuthenticatedOrgsRoute
@@ -233,7 +233,7 @@ export interface FileRouteTypes {
   fullPaths:
     | ''
     | '/login'
-    | '/signin'
+    | '/signup'
     | '/create-pet'
     | '/org-edit'
     | '/orgs'
@@ -245,7 +245,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
-    | '/signin'
+    | '/signup'
     | '/create-pet'
     | '/org-edit'
     | '/orgs'
@@ -258,7 +258,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/login'
-    | '/signin'
+    | '/signup'
     | '/_authenticated/create-pet'
     | '/_authenticated/org-edit'
     | '/_authenticated/orgs'
@@ -273,7 +273,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
-  SigninRoute: typeof SigninRoute
+  SignupRoute: typeof SignupRoute
   OrgDetailsIdRoute: typeof OrgDetailsIdRoute
   PetDetailsIdRoute: typeof PetDetailsIdRoute
   PetEditIdRoute: typeof PetEditIdRoute
@@ -282,7 +282,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
-  SigninRoute: SigninRoute,
+  SignupRoute: SignupRoute,
   OrgDetailsIdRoute: OrgDetailsIdRoute,
   PetDetailsIdRoute: PetDetailsIdRoute,
   PetEditIdRoute: PetEditIdRoute,
@@ -302,7 +302,7 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated",
         "/login",
-        "/signin",
+        "/signup",
         "/org-details/$id",
         "/pet-details/$id",
         "/pet-edit/$id"
@@ -321,8 +321,8 @@ export const routeTree = rootRoute
     "/login": {
       "filePath": "login.tsx"
     },
-    "/signin": {
-      "filePath": "signin.tsx"
+    "/signup": {
+      "filePath": "signup.tsx"
     },
     "/_authenticated/create-pet": {
       "filePath": "_authenticated/create-pet.tsx",

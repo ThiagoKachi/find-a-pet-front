@@ -7,6 +7,14 @@ Front
   - Animações (Framer Motion) / Magic UI
   - Deploy
 
+<!-- TODO FRONT -->
+- Adicionar PET
+- Editar PET
+- Excluir PET
+- Login com a ORG
+- Verificar rotas autenticadas
+- Setar Pet para indisponível na edição
+
 <!-- TODO BACK -->
 - Paginação na listagem de pets
 - Nome da ORG na listagem de pets
@@ -14,3 +22,4 @@ Front
 - Filtros 'city' e 'name' com insensitiveCase
 - Imagens do pet no detalhe da org
 - Na API de login, retornar o ID da org
+- Setar Pet para indisponível na edição

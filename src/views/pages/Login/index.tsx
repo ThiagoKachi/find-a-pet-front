@@ -40,7 +40,7 @@ export function Login() {
           </div>
           <div className="mt-4 text-center text-sm">
             Não tem uma conta?{' '}
-            <Link to="/signin" className="underline">
+            <Link to="/signup" className="underline">
               Cadastrar
             </Link>
           </div>
