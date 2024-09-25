@@ -8,11 +8,13 @@ Front
   - Deploy
 
 <!-- TODO FRONT -->
-- Adicionar PET
-- Editar PET
-- Excluir PET
+- Adicionar PET ✅
+- Editar PET ✅
+- Excluir PET ✅
+- Adicionar imagens ao PET (Criação e edição)
 - Login com a ORG
 - Verificar rotas autenticadas
+  - Testar ações que precisam estar autenticadas
 - Setar Pet para indisponível na edição
 
 <!-- TODO BACK -->

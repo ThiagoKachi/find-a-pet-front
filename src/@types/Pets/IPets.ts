@@ -1,11 +1,15 @@
+type PetGender = 'Male' | 'Female';
+type PetSize = 'Small' | 'Medium' | 'Large';
+type PetSpecies = 'Cat' | 'Dog' | 'Bird' | 'Other';
+
 export interface IPet {
   id: string;
   name: string;
   age: number;
-  species: string;
+  species: PetSpecies;
   breed: string;
-  size: string;
-  gender: string;
+  size: PetSize;
+  gender: PetGender;
   description: string;
   available: boolean;
   created_at: string;

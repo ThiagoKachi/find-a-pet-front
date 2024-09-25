@@ -7,12 +7,10 @@ export const Route = createFileRoute('/pet-edit/$id')({
 });
 
 function PetEditComponent() {
-  const { id } = Route.useParams();
-
   return (
     <>
       <Header />
-      <EditPet petID={id} />
+      <EditPet />
     </>
   );
 }

@@ -1,88 +1,156 @@
 import { Button } from '@/views/components/Button';
+import { ErrorMessage } from '@/views/components/ErrorMessage';
 import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
 import { RadioGroup, RadioGroupItem } from '@/views/components/RadioGroup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/views/components/Select';
 import { Textarea } from '@/views/components/Textarea';
 import { Link } from '@tanstack/react-router';
-import { Upload } from 'lucide-react';
+import { Loader2, Upload } from 'lucide-react';
+import { Controller } from 'react-hook-form';
 import { AlertConfirmPetDelete } from './components/ConfirmDelete';
+import { PetEditLoadingScreen } from './components/LoadingScreen';
 import { UploadPetImages } from './components/PetImagesUpload';
+import { useEditPetController } from './useEditPetController';
 
-interface EditPetProps {
-  petID: string;
-}
+export function EditPet() {
+  const {
+    control,
+    errors,
+    handleSubmit,
+    isLoadingPetDetails,
+    isPending,
+    register,
+    isPendingRemovePet,
+    handleRemovePet,
+  } = useEditPetController();
 
-export function EditPet({ petID }: EditPetProps) {
+  if (isLoadingPetDetails) {
+    return (
+      <PetEditLoadingScreen />
+    );
+  }
+
   return (
     <div className="w-full max-w-4xl mx-auto p-6 sm:p-8">
-      <h1>PET ID: {petID}</h1>
       <div className="flex justify-between mb-4 flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0">
         <h1 className="text-2xl font-bold text-zinc-700">Editar informações do Pet</h1>
-        <AlertConfirmPetDelete />
+        <AlertConfirmPetDelete
+          onRemovePet={handleRemovePet}
+          isLoading={isPendingRemovePet}
+        />
       </div>
-      <form className="grid gap-6">
+      <form className="grid gap-6" onSubmit={handleSubmit}>
         <div className="grid grid-cols-2 gap-6">
           <div className="grid gap-2">
             <Label htmlFor="name">Nome</Label>
-            <Input id="name" placeholder="Enter pet's name" />
+            <Input
+              id="name"
+              placeholder="Enter pet's name"
+              {...register('name')}
+            />
+            {errors.name && <ErrorMessage message={errors.name.message} />}
           </div>
           <div className="grid gap-2">
             <Label htmlFor="age">Idade</Label>
-            <Input id="age" type="number" placeholder="Enter pet's age" />
+            <Input
+              id="age"
+              type="number"
+              min={0}
+              placeholder="Enter pet's age"
+              {...register('age', {
+                setValueAs: (value) => value === '' ? undefined : Number(value)
+              })}
+            />
+            {errors.age && <ErrorMessage message={errors.age.message} />}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-6">
           <div className="grid gap-2">
             <Label htmlFor="species">Espécie</Label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select species" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="dog">Cachorro</SelectItem>
-                <SelectItem value="cat">Gato</SelectItem>
-                <SelectItem value="bird">Ave</SelectItem>
-                <SelectItem value="other">Outro</SelectItem>
-              </SelectContent>
-            </Select>
+            <Controller
+              name='species'
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <Select value={value} onValueChange={onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select species" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Dog">Cachorro</SelectItem>
+                    <SelectItem value="Cat">Gato</SelectItem>
+                    <SelectItem value="Bird">Ave</SelectItem>
+                    <SelectItem value="Other">Outro</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.species && (
+              <ErrorMessage message={errors.species.message} />
+            )}
           </div>
           <div className="grid gap-2">
             <Label htmlFor="breed">Raça</Label>
-            <Input id="breed" placeholder="Enter pet's breed" />
+            <Input
+              id="breed"
+              placeholder="Enter pet's breed"
+              {...register('breed')}
+            />
+            {errors.breed && <ErrorMessage message={errors.breed.message} />}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-6">
           <div className="grid gap-2">
             <Label htmlFor="size">Tamanho</Label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select size" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="small">Pequeno</SelectItem>
-                <SelectItem value="medium">Médio</SelectItem>
-                <SelectItem value="large">Grande</SelectItem>
-              </SelectContent>
-            </Select>
+            <Controller
+              name='size'
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <Select value={value} onValueChange={onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select size" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Small">Pequeno</SelectItem>
+                    <SelectItem value="Medium">Médio</SelectItem>
+                    <SelectItem value="Large">Grande</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.size && <ErrorMessage message={errors.size.message} />}
           </div>
           <div className="grid gap-2">
             <Label htmlFor="gender">Gênero</Label>
-            <RadioGroup id="gender" defaultValue="male">
-              <div className="flex items-center gap-2">
-                <RadioGroupItem id="gender-male" value="male" />
-                <Label htmlFor="gender-male">Macho</Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <RadioGroupItem id="gender-female" value="female" />
-                <Label htmlFor="gender-female">Fêmea</Label>
-              </div>
-            </RadioGroup>
+            <Controller
+              name='gender'
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <RadioGroup id="gender" defaultValue="Male" value={value} onValueChange={onChange}>
+                  <div className="flex items-center gap-2">
+                    <RadioGroupItem id="gender-male" value="Male" />
+                    <Label htmlFor="gender-male">Macho</Label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <RadioGroupItem id="gender-female" value="Female" />
+                    <Label htmlFor="gender-female">Fêmea</Label>
+                  </div>
+                </RadioGroup>
+              )}
+            />
           </div>
         </div>
         <div className="grid gap-2">
           <Label htmlFor="description">Descrição</Label>
-          <Textarea id="description" placeholder="Enter pet's description" className="min-h-[150px]" />
+          <Textarea
+            id="description"
+            placeholder="Enter pet's description"
+            className="min-h-[150px]"
+            {...register('description')}
+          />
+          {errors.description && (
+            <ErrorMessage message={errors.description.message} />
+          )}
         </div>
         <div className="grid gap-2">
           <div className="flex items-center justify-between">
@@ -97,9 +165,19 @@ export function EditPet({ petID }: EditPetProps) {
 
         <div className="flex justify-end gap-2">
           <Link to="/">
-            <Button type="button" variant="outline">Cancelar</Button>
+            <Button type="button" variant="outline" disabled={isPending}>
+              Cancelar
+            </Button>
           </Link>
-          <Button type="submit">Salvar alterações</Button>
+          <Button type="submit" className="px-8" disabled={isPending}>
+            {isPending ? (
+              <span className="flex items-center gap-1">
+                <Loader2 className="w-4 h-4 animate-spin" /> Salvando...
+              </span>
+            ) : (
+              'Salvar'
+            )}
+          </Button>
         </div>
       </form>
     </div>
