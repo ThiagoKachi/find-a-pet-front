@@ -6,13 +6,17 @@ export function UploadPetImages() {
   const [images, setImages] = useState<{ src: string; alt: string }[]>([]);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
+    const maxFiles = 5;
+    const files = event.target.files as FileList;
+
+    if (files?.length <= maxFiles) {
       const newImages = Array.from(files).map((file) => ({
         src: URL.createObjectURL(file),
         alt: file.name,
       }));
       setImages((prevImages) => [...prevImages, ...newImages]);
+    } else {
+      alert(`Máximo de ${maxFiles} imagens permitidas`);
     }
   };
 
@@ -28,7 +32,14 @@ export function UploadPetImages() {
             <span className="text-zinc-500 font-medium">Clique para adicionar</span>
             <small className="text-zinc-500">Máximo de 5 imagens</small>
           </div>
-          <input id="file-upload" type="file" multiple onChange={handleFileUpload} className="sr-only" />
+          <input
+            id="file-upload"
+            type="file"
+            multiple
+            onChange={handleFileUpload}
+            className="sr-only"
+            accept='.jpg, .jpeg, .png'
+          />
         </div>
       ) : (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
