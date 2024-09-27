@@ -2,7 +2,7 @@ import { IPet } from '@/@types/Pets/IPets';
 import { deletePet } from '@/app/services/pets/deletePet';
 import { fetchPetById } from '@/app/services/pets/fetchPetById';
 import { updatePet } from '@/app/services/pets/updatePet';
-import { Route } from '@/routes/pet-edit/$id';
+import { Route } from '@/routes/_authenticated/pet-edit/$id';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';

@@ -1,4 +1,4 @@
-import { IPet } from '@/@types/IPets';
+import { IPet } from '@/@types/Pets/IPets';
 import { StoreSlice } from '../store';
 
 type PetStore = {

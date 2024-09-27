@@ -3,7 +3,7 @@ import { IPetsFilters } from '@/@types/Pets/IPetsFilters';
 import { fetchPets } from '@/app/services/pets/fetchPets';
 import { useStore } from '@/app/store';
 import { capitalizeFirstLetter } from '@/app/utils/capitalizeFirstLetter';
-import { Route } from '@/routes/_authenticated';
+import { Route } from '@/routes/index';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';

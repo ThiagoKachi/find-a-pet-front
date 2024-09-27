@@ -1,12 +1,20 @@
 
+import { useStore } from '@/app/store';
 import { Sheet, SheetContent, SheetTrigger } from '@/views/components/Sheet';
 import { Link } from '@tanstack/react-router';
 import { Dog, Menu, PawPrint, Warehouse } from 'lucide-react';
+import { useShallow } from 'zustand/react/shallow';
 import { Button } from '../Button';
 import { NavItem } from '../NavItem';
 import { UserMenu } from '../UserMenu';
 
 export function Header() {
+  const { isAuthenticated } = useStore(
+    useShallow(state => ({
+      isAuthenticated: state.auth.isAuthenticated,
+    }))
+  );
+
   return (
     <header className="z-50 bg-slate-50 sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -65,7 +73,19 @@ export function Header() {
         </SheetContent>
       </Sheet>
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4 justify-end">
-        <UserMenu />
+        {isAuthenticated ? (
+          <UserMenu />
+        ) : (
+          <Link to="/login">
+            <Button
+              variant="outline"
+              className="bg-slate-50 gap-1.5"
+            >
+              <PawPrint className="h-5 w-5 text-primary mb-0.5" />
+              <span>Entrar</span>
+            </Button>
+          </Link>
+        )}
       </div>
     </header>
   );

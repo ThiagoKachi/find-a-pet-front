@@ -1,5 +1,5 @@
 import { IPetsFilters } from '@/@types/Pets/IPetsFilters';
-import { Route } from '@/routes/_authenticated';
+import { Route } from '@/routes/index';
 import { Button } from '@/views/components/Button';
 import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';

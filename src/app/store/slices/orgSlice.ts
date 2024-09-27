@@ -1,4 +1,4 @@
-import { IOrg } from '@/@types/IOrgs';
+import { IOrg } from '@/@types/Orgs/IOrgs';
 import { StoreSlice } from '../store';
 
 type OrgStore = {

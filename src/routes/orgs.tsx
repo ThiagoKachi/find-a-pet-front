@@ -10,7 +10,7 @@ const schema = z.object({
 
 type OrgsFilters = z.infer<typeof schema>;
 
-export const Route = createFileRoute('/_authenticated/orgs')({
+export const Route = createFileRoute('/orgs')({
   validateSearch: (search: Record<string, unknown>): OrgsFilters => {
     return schema.parse(search);
   },

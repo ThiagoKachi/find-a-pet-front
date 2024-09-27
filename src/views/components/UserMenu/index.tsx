@@ -1,3 +1,4 @@
+import { useStore } from '@/app/store';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,9 +9,16 @@ import {
 } from '@/views/components/DropdownMenu';
 import { Link } from '@tanstack/react-router';
 import { CircleUser, LogOut, Settings } from 'lucide-react';
+import { useShallow } from 'zustand/react/shallow';
 import { Button } from '../Button';
 
 export function UserMenu() {
+  const { logout } = useStore(
+    useShallow(state => ({
+      logout: state.auth.logout,
+    }))
+  );
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -33,7 +41,7 @@ export function UserMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
           <LogOut className="mr-2 h-4 w-4 text-zinc-700" />
-          <Link to="/login" className="text-zinc-700 font-medium">
+          <Link to="/login" className="text-zinc-700 font-medium" onClick={logout}>
             Sair
           </Link>
         </DropdownMenuItem>

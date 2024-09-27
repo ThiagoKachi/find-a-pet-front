@@ -12,7 +12,7 @@ const schema = z.object({
 
 export type PetsFilters = z.infer<typeof schema>;
 
-export const Route = createFileRoute('/_authenticated/')({
+export const Route = createFileRoute('/')({
   validateSearch: (search: Record<string, unknown>): PetsFilters => {
     return schema.parse(search);
   },

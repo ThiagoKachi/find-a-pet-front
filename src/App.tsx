@@ -9,7 +9,7 @@ import { NotFound } from './views/pages/NotFound';
 const router = createRouter({
   routeTree,
   defaultNotFoundComponent: () => <NotFound />,
-  context: { isAuthenticated: undefined! }
+  context: { isAuthenticated: undefined!, login: undefined!, logout: undefined! },
 });
 
 declare module '@tanstack/react-router' {
@@ -21,8 +21,10 @@ declare module '@tanstack/react-router' {
 const queryClient = new QueryClient();
 
 function App() {
-  const { isAuthenticated } = useStore(useShallow(state => ({
+  const { isAuthenticated, login, logout } = useStore(useShallow(state => ({
     isAuthenticated: state.auth.isAuthenticated,
+    login: state.auth.login,
+    logout: state.auth.logout,
   })));
 
   return (
@@ -35,7 +37,14 @@ function App() {
         toastOptions={{}}
       />
       <div className="w-full h-screen bg-slate-50">
-        <RouterProvider router={router} context={{ isAuthenticated }} />
+        <RouterProvider
+          router={router}
+          context={{
+            isAuthenticated,
+            login,
+            logout,
+          }}
+        />
       </div>
 
     </QueryClientProvider>

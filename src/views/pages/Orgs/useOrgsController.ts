@@ -3,7 +3,7 @@ import { IOrgsFilters } from '@/@types/Orgs/IOrgsFilters';
 import { fetchOrgs } from '@/app/services/orgs/fetchOrgs';
 import { useStore } from '@/app/store';
 import { capitalizeFirstLetter } from '@/app/utils/capitalizeFirstLetter';
-import { Route } from '@/routes/_authenticated/orgs';
+import { Route } from '@/routes/orgs';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
