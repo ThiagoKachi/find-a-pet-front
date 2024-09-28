@@ -2,6 +2,12 @@ type PetGender = 'Male' | 'Female';
 type PetSize = 'Small' | 'Medium' | 'Large';
 type PetSpecies = 'Cat' | 'Dog' | 'Bird' | 'Other';
 
+export type IPetImages = {
+  id: string;
+  file_key: string;
+  blob?: boolean;
+};
+
 export interface IPet {
   id: string;
   name: string;
@@ -15,8 +21,5 @@ export interface IPet {
   created_at: string;
   updated_at: string;
   orgId: string;
-  petImages: {
-    id: string;
-    file_key: string;
-  }[];
+  petImages: IPetImages[];
 }

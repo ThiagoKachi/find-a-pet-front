@@ -1,4 +1,6 @@
-import { IPet } from '@/@types/Pets/IPets';
+import { IPet, IPetImages } from '@/@types/Pets/IPets';
+import { removeFile } from '@/app/services/images/removeFile';
+import { uploadFile } from '@/app/services/images/uploadFile';
 import { deletePet } from '@/app/services/pets/deletePet';
 import { fetchPetById } from '@/app/services/pets/fetchPetById';
 import { updatePet } from '@/app/services/pets/updatePet';
@@ -7,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import axios from 'axios';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -25,6 +28,8 @@ const schema = z.object({
 export type FormData = z.infer<typeof schema>;
 
 export function useEditPetController() {
+  const [petImages, setPetImages] = useState<IPetImages[]>([]);
+
   const { id } = Route.useParams();
   const navigate = useNavigate();
 
@@ -32,6 +37,8 @@ export function useEditPetController() {
     queryKey: ['pet-details-edit'],
     queryFn: async () => {
       const data: IPet = await fetchPetById(id);
+
+      setPetImages(data.petImages);
 
       return data;
     },
@@ -102,6 +109,70 @@ export function useEditPetController() {
     }
   });
 
+  // Edit images
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleRemoveFile(index: number, fileKey: string) {
+    try {
+      setPetImages((prevState) => {
+        const newState = [...prevState];
+        newState.splice(index, 1);
+
+        return newState;
+      });
+
+      await removeFile(fileKey);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          `Ocorreu um erro ao remover a imagem: ${error.response?.data.error}`
+        );
+      }
+    }
+  }
+
+  async function handleUpload(images: File[]) {
+    if (petImages.length + images.length > 5) {
+      toast.warning('Máximo de 5 imagens por pet');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      const response = await Promise.allSettled(images.map((file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return uploadFile(id, formData);
+      }));
+
+      response.forEach((response, index) => {
+        if (response.status === 'rejected') {
+          const fileWithError = images[index];
+          toast.error(`O upload do arquivo ${fileWithError.name} falhou.`);
+        }
+      });
+
+      const imagesBlob = images.map((img) => ({
+        id: Math.random().toString(),
+        file_key: URL.createObjectURL(img),
+        blob: true
+      }));
+
+      setPetImages((prevState: IPetImages[]) => {
+        const newImagesArray = [...prevState, ...imagesBlob];
+
+        return newImagesArray;
+      });
+
+      toast.success('Uploads realizados com sucesso!');
+    } catch  {
+      toast.error('O upload dos arquivos falhou.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return {
     register,
     errors,
@@ -110,6 +181,10 @@ export function useEditPetController() {
     control,
     isLoadingPetDetails,
     handleRemovePet,
-    isPendingRemovePet
+    isPendingRemovePet,
+    isLoading,
+    handleRemoveFile,
+    handleUpload,
+    petImages
   };
 }

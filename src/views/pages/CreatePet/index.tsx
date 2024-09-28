@@ -12,9 +12,8 @@ import {
 } from '@/views/components/Select';
 import { Textarea } from '@/views/components/Textarea';
 import { Link } from '@tanstack/react-router';
-import { ArrowLeft, Loader2, Upload } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import { Controller } from 'react-hook-form';
-import { UploadPetImages } from './components/PetImagesUpload';
 import { useCreatePetController } from './useCreatePetController';
 
 export function CreatePet() {
@@ -39,7 +38,7 @@ export function CreatePet() {
       <div className="flex justify-between mb-4 flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0">
         <h1 className="text-2xl font-bold text-zinc-700">Criar novo Pet</h1>
       </div>
-      <form className="grid gap-6" onSubmit={handleSubmit}>
+      <form className="grid gap-4" onSubmit={handleSubmit}>
         <div className="grid grid-cols-2 gap-6">
           <div className="grid gap-2">
             <Label htmlFor="name">Nome</Label>
@@ -151,17 +150,6 @@ export function CreatePet() {
             <ErrorMessage message={errors.description.message} />
           )}
         </div>
-        <div className="grid gap-2">
-          <div className="flex items-center justify-between">
-            <Label className="text-base">Imagens</Label>
-            <Button size="sm" variant="outline">
-              <Upload className="mr-2 h-5 w-5" />
-              Adicionar imagens
-            </Button>
-          </div>
-          <UploadPetImages />
-        </div>
-
         <div className="flex justify-end gap-2">
           <Link to="/">
             <Button type="button" variant="outline" disabled={isPending}>

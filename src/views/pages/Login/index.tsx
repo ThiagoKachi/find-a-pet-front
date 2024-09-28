@@ -50,9 +50,9 @@ export function Login() {
               <div className='relative'>
                 <Input
                   id="password"
-                  type={showPassword ? 'password' : 'text'}
+                  type={!showPassword ? 'password' : 'text'}
                   placeholder="********"
-                  className={cn('placeholder:text-base', showPassword ? 'text-2xl' : 'text-base')}
+                  className={cn('placeholder:text-base', !showPassword ? 'text-2xl' : 'text-base')}
                   {...register('password')}
                 />
                 <button
@@ -60,7 +60,7 @@ export function Login() {
                   className='absolute right-4 top-1/2 -translate-y-1/2'
                   onClick={togglePassword}
                 >
-                  {showPassword ? (
+                  {!showPassword ? (
                     <EyeOff size={18} className='text-zinc-600 cursor-pointer' />
                   ) : (
                     <Eye size={18} className='text-zinc-600 cursor-pointer' />

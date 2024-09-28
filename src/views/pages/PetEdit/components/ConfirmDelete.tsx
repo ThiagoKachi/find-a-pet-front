@@ -15,11 +15,13 @@ import { useState } from 'react';
 interface AlertConfirmPetDeleteProps {
   onRemovePet: () => Promise<void>;
   isLoading: boolean;
+  isDisabled: boolean;
 }
 
 export function AlertConfirmPetDelete({
   onRemovePet,
-  isLoading
+  isLoading,
+  isDisabled
 }: AlertConfirmPetDeleteProps) {
   const [open, setOpen] = useState(false);
 
@@ -48,7 +50,7 @@ export function AlertConfirmPetDelete({
           <Button
             className="bg-red-600 hover:bg-red-700"
             onClick={handleRemove}
-            disabled={isLoading}
+            disabled={isLoading || isDisabled}
           >
             {isLoading ? (
               <span className="flex items-center gap-1">
