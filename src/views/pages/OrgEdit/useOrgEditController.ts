@@ -3,10 +3,12 @@ import { editOrg } from '@/app/services/orgs/editOrg';
 import { fetchOrgById } from '@/app/services/orgs/fetchOrgById';
 import { removeOrg } from '@/app/services/orgs/removeOrg';
 import { useStore } from '@/app/store';
+import { COOKIES_KEYS } from '@/config/cookiesKeys';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -25,6 +27,8 @@ const schema = z.object({
 export type FormData = z.infer<typeof schema>;
 
 export function useOrgEditController() {
+  const [cookie] = useCookies([COOKIES_KEYS.ORG_ID]);
+
   const navigate = useNavigate();
 
   const { setOrgInfo } = useStore(
@@ -36,7 +40,7 @@ export function useOrgEditController() {
   const { data, isFetching: isLoading } = useQuery({
     queryKey: ['org-edit-details'],
     queryFn: async () => {
-      const data: IOrg = await fetchOrgById('e36c0d00-661b-4af6-a6c6-53f5ec3db61d');
+      const data: IOrg = await fetchOrgById(cookie[COOKIES_KEYS.ORG_ID]);
 
       setOrgInfo(data);
 

@@ -5,7 +5,6 @@ type PetSpecies = 'Cat' | 'Dog' | 'Bird' | 'Other';
 export type IPetImages = {
   id: string;
   file_key: string;
-  blob?: boolean;
 };
 
 export interface IPet {
@@ -22,4 +21,11 @@ export interface IPet {
   updated_at: string;
   orgId: string;
   petImages: IPetImages[];
+  org_id: {
+    name: string;
+    address: string;
+    city: string;
+    state: string;
+    email: string;
+  }
 }

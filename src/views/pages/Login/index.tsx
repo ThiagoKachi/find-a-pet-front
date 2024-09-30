@@ -95,7 +95,7 @@ export function Login() {
             </span>
             <div className="text-sm ml-2">
               <Link to="/" className="underline">
-                Sou visitante
+                Quero adotar
               </Link>
             </div>
           </div>

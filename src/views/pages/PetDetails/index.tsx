@@ -81,7 +81,7 @@ export function PetDetails() {
               <span>{transformGender(petDetails?.gender)}</span>
             </div>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-3">
             <p>{petDetails?.description}</p>
             <Badge variant={petDetails?.available ? 'default' : 'destructive'} className="inline-flex items-center gap-2 text-white py-1">
               <PawPrintIcon className="w-4 h-4" />
@@ -92,14 +92,14 @@ export function PetDetails() {
             </Badge>
           </div>
           <div className="space-y-2">
-            <h2 className="text-xl font-semibold">Sobre o Canil</h2>
+            <h2 className="text-xl font-semibold text-zinc-600">Sobre o Canil</h2>
             <div className="flex items-center gap-2">
-              <Warehouse className="w-5 h-5" />
-              <span>Paws and Claws Animal Shelter</span>
+              <Warehouse className="w-5 h-5 text-primary" />
+              <span>{petDetails?.org_id.address}</span>
             </div>
             <div className="flex items-center gap-2">
-              <BuildingIcon className="w-5 h-5" />
-              <span>123 Main Street, Anytown USA</span>
+              <BuildingIcon className="w-5 h-5 text-primary" />
+              <span>{petDetails?.org_id.city} - {petDetails?.org_id.state}</span>
             </div>
           </div>
           <AdoptModalForm />

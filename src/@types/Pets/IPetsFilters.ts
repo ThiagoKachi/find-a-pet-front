@@ -3,4 +3,6 @@ export interface IPetsFilters {
   age?: number;
   size?: string;
   gender?: string;
+  limit?: number;
+  page?: number;
 }

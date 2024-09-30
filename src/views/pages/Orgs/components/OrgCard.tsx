@@ -16,7 +16,7 @@ interface OrgCardProps {
 export function OrgCard({ orgDetails }: OrgCardProps) {
   return (
     <Link to='/org-details/$id' params={{ id: orgDetails.id }}>
-      <Card className="w-full hover:shadow-lg transition-shadow duration-300 ease-in-out cursor-pointer h-full">
+      <Card className="w-[300px] hover:shadow-lg transition-shadow duration-300 ease-in-out cursor-pointer h-full">
         <div className="relative overflow-hidden border-b border-zinc-100">
           <CardHeader className="flex items-start gap-4 px-6 pt-6 pb-1">
             <div className="flex items-center gap-4 ml-0">

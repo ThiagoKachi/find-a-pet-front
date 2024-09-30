@@ -1,3 +1,4 @@
+import { env } from '@/config/env';
 import { Button } from '@/views/components/Button';
 import { Card, CardContent } from '@/views/components/Card';
 import {
@@ -135,9 +136,9 @@ export function OrgDetails() {
         </div>
         <div className="grid gap-4">
           <div className="grid gap-0">
-            <h2 className="text-2xl font-bold text-zinc-700">Galeria do Pet</h2>
+            <h2 className="text-2xl font-bold text-zinc-700">Galeria de Pets</h2>
             <p className="text-muted-foreground -mt-10">
-              Confira as fotos incríveis do pet.
+              Confira as fotos incríveis dos pets.
             </p>
           </div>
           <Carousel className="w-full max-w-md mx-auto">
@@ -145,13 +146,16 @@ export function OrgDetails() {
               {orgDetails?.pets?.map((pet) => (
                 <CarouselItem>
                   <img
-                    src="https://cdn.pixabay.com/photo/2023/08/18/15/02/dog-8198719_640.jpg"
-                    // src={`${env.BASE_AWS_API_URL}/${image.file_key}`}
+                    src={`${env.BASE_AWS_API_URL}/${pet.petImages[0]?.file_key}`}
                     alt={pet.name}
                     width="450"
                     height="350"
                     className="object-cover rounded-md"
                     style={{ aspectRatio: '450/350', objectFit: 'cover' }}
+                    onError={({ currentTarget }) => {
+                      currentTarget.onerror = null;
+                      currentTarget.src = '/no-Image-placeholder.png';
+                    }}
                   />
                 </CarouselItem>
               ))}

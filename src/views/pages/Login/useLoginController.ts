@@ -47,21 +47,26 @@ export function useLoginController() {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (data: FormData) => {
-      const { token } = await createSession(data.email, data.password);
+      const { token, orgId } = await createSession(data.email, data.password);
 
-      return token;
+      return { token, orgId };
     },
   });
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
-      const token = await mutateAsync(
+      const session_infos = await mutateAsync(
         { email: data.email, password: data.password }
       );
 
+      setCookie(COOKIES_KEYS.ORG_ID, JSON.stringify(session_infos.orgId), {
+        secure: true,
+        maxAge: 60 * 60 * 24, // 1 day
+      });
+
       login();
 
-      setCookie(COOKIES_KEYS.TOKEN, JSON.stringify(token), {
+      setCookie(COOKIES_KEYS.TOKEN, JSON.stringify(session_infos.token), {
         secure: true,
         maxAge: 60 * 60 * 24, // 1 day
       });

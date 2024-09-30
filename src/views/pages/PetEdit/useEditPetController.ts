@@ -22,7 +22,7 @@ const schema = z.object({
   size: z.enum(['Small', 'Medium', 'Large'], { message: 'Tamanho é obrigatório.' }),
   gender: z.enum(['Male', 'Female'], { message: 'Genero é obrigatório.' }),
   description: z.string().optional(),
-  available: z.boolean().default(true),
+  available: z.boolean(),
 });
 
 export type FormData = z.infer<typeof schema>;
@@ -33,7 +33,7 @@ export function useEditPetController() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
 
-  const { data, isLoading: isLoadingPetDetails } = useQuery({
+  const { data, isFetching: isLoadingPetDetails } = useQuery({
     queryKey: ['pet-details-edit'],
     queryFn: async () => {
       const data: IPet = await fetchPetById(id);
@@ -58,7 +58,7 @@ export function useEditPetController() {
       age: data?.age || 0,
       name: data?.name || '',
       description: data?.description || '',
-      available: data?.available || true,
+      available: data?.available ?? true,
       breed: data?.breed || '',
     }
   });
@@ -122,6 +122,7 @@ export function useEditPetController() {
       });
 
       await removeFile(fileKey);
+      toast.success('Imagem removida com sucesso!');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(
@@ -153,14 +154,12 @@ export function useEditPetController() {
         }
       });
 
-      const imagesBlob = images.map((img) => ({
-        id: Math.random().toString(),
-        file_key: URL.createObjectURL(img),
-        blob: true
-      }));
+      const values = response
+        .filter((images) => images.status === 'fulfilled')
+        .map((images) => images.value.petImages);
 
       setPetImages((prevState: IPetImages[]) => {
-        const newImagesArray = [...prevState, ...imagesBlob];
+        const newImagesArray = [...prevState, ...values].flat();
 
         return newImagesArray;
       });

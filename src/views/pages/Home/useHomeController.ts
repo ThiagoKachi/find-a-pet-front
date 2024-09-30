@@ -1,5 +1,5 @@
-import { IPet } from '@/@types/Pets/IPets';
 import { IPetsFilters } from '@/@types/Pets/IPetsFilters';
+import { IPetsListResponse } from '@/@types/Pets/IPetsListResponse';
 import { fetchPets } from '@/app/services/pets/fetchPets';
 import { useStore } from '@/app/store';
 import { capitalizeFirstLetter } from '@/app/utils/capitalizeFirstLetter';
@@ -11,7 +11,7 @@ import { useShallow } from 'zustand/react/shallow';
 export function useHomeController() {
   const [isFilterOpen, setIsFilterOpen] = useState(true);
 
-  const { species, age, size, gender } = Route.useSearch() as IPetsFilters;
+  const { species, age, size, gender, limit, page } = Route.useSearch() as IPetsFilters;
 
   function handleOpenFilters() {
     setIsFilterOpen(!isFilterOpen);
@@ -30,16 +30,17 @@ export function useHomeController() {
         age: age === 0 ? undefined : age,
         species: species === 'all' ? undefined : capitalizeFirstLetter(species!),
         gender: gender === 'all' ? undefined : capitalizeFirstLetter(gender!),
-        size: size === 'all' ? undefined : capitalizeFirstLetter(size!)
+        size: size === 'all' ? undefined : capitalizeFirstLetter(size!),
+        limit: limit ? limit : 10,
+        page: page ? page : 1,
       };
 
-      const data: IPet[] = await fetchPets(filters);
+      const data: IPetsListResponse = await fetchPets(filters);
 
-      setPets(data);
+      setPets(data.pets || []);
 
-      return data;
+      return data.pets;
     },
-    staleTime: 1000 * 60 * 10,
   });
 
   return {

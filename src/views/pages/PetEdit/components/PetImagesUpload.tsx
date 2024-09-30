@@ -31,6 +31,8 @@ export function UploadPetImages({
     maxFiles: 5,
   });
 
+  console.log(petImages);
+
   return (
     <div className="w-full mx-auto space-y-2">
       <div className="flex items-end justify-between pb-2">
@@ -75,19 +77,11 @@ export function UploadPetImages({
               key={index}
               className="relative overflow-hidden rounded-lg group"
             >
-              {image.blob ? (
-                <img
-                  src={`${image.file_key}`}
-                  alt={image.file_key}
-                  className="object-cover w-40 h-40"
-                />
-              ) : (
-                <img
-                  src={`${env.BASE_AWS_API_URL}/${image.file_key}`}
-                  alt={image.file_key}
-                  className="object-cover w-40 h-40"
-                />
-              )}
+              <img
+                src={`${env.BASE_AWS_API_URL}/${image.file_key}`}
+                alt={image.file_key}
+                className="object-cover w-40 h-40"
+              />
               <Button
                 type="button"
                 variant="ghost"

@@ -4,6 +4,7 @@ import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
 import { RadioGroup, RadioGroupItem } from '@/views/components/RadioGroup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/views/components/Select';
+import { Switch } from '@/views/components/Switch';
 import { Textarea } from '@/views/components/Textarea';
 import { Loader2 } from 'lucide-react';
 import { Controller } from 'react-hook-form';
@@ -39,7 +40,12 @@ export function EditPet() {
       <div className="flex justify-between mb-4 flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0">
         <h1 className="text-2xl font-bold text-zinc-700">Editar informações do Pet</h1>
         <div className='flex items-center gap-2'>
-          <Button type="submit" className="px-8" disabled={isPending || isLoading}>
+          <Button
+            type="button"
+            className="px-8"
+            disabled={isPending || isLoading}
+            onClick={handleSubmit}
+          >
             {isPending ? (
               <span className="flex items-center gap-1">
                 <Loader2 className="w-4 h-4 animate-spin" /> Salvando...
@@ -55,7 +61,22 @@ export function EditPet() {
           />
         </div>
       </div>
-      <form className="grid gap-6" onSubmit={handleSubmit}>
+      <div className="grid gap-6">
+        <div className="grid gap-2">
+          <Label htmlFor="available">Status</Label>
+          <Controller
+            name='available'
+            control={control}
+            render={({ field: { value, onChange } }) => (
+              <div className="flex items-center space-x-2">
+                <Switch checked={value} onCheckedChange={onChange} id="available" />
+                <Label htmlFor="available">
+                  {value ? 'Disponível para adoção' : 'Indisponível para adoção'}
+                </Label>
+              </div>
+            )}
+          />
+        </div>
         <div className="grid grid-cols-2 gap-6">
           <div className="grid gap-2">
             <Label htmlFor="name">Nome</Label>
@@ -176,7 +197,7 @@ export function EditPet() {
             isLoading={isLoading}
           />
         </div>
-      </form>
+      </div>
     </div>
   );
 }
