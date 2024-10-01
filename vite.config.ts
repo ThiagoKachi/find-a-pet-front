@@ -16,4 +16,12 @@ export default defineConfig({
   },
   base: '/',
   publicDir: 'public',
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      input: {
+        main: './index.html',
+      },
+    }
+  }
 });
