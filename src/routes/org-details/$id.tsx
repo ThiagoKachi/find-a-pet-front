@@ -7,12 +7,10 @@ export const Route = createFileRoute('/org-details/$id')({
 });
 
 function OrgDetailsComponent() {
-  const { id } = Route.useParams();
-
   return (
     <>
       <Header />
-      <OrgDetails orgID={id} />
+      <OrgDetails />
     </>
   );
 }

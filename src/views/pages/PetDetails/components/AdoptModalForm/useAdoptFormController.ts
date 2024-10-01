@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { showConfetti } from './buttonEffect';
 
 const schema = z.object({
   name: z.string().min(1, { message: 'Nome é obrigatório.' }),
@@ -53,6 +54,8 @@ export function useAdoptFormController() {
       toast.success(
         'Seu interesse foi enviado para a org. Em breve a org entrará em contato. ❤️ 🐾'
       );
+
+      showConfetti();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(
