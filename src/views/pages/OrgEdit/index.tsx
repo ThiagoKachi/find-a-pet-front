@@ -6,6 +6,7 @@ import { Label } from '@/views/components/Label';
 import { Loading } from '@/views/components/Loading';
 import { Link } from '@tanstack/react-router';
 import { PawPrint, Plus } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { AlertConfirmOrgDelete } from './components/ConfirmDelete';
 import { PetCard } from './components/PetCard';
 import { useOrgEditController } from './useOrgEditController';
@@ -31,6 +32,9 @@ export function EditOrg() {
 
   return (
     <div className="container mx-auto my-8 px-4 sm:px-6 lg:px-8 pb-24">
+      <Helmet>
+        <title>FindAFriend - Editar Org</title>
+      </Helmet>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-1">
         <div>
           <div className="flex justify-between flex-col md:flex-row items-start md:items-center">

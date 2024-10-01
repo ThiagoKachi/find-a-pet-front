@@ -5,6 +5,7 @@ import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
 import { Link } from '@tanstack/react-router';
 import { Eye, EyeOff, Loader2, PawPrint } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { useLoginController } from './useLoginController';
 
 export function Login() {
@@ -19,6 +20,9 @@ export function Login() {
 
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+      <Helmet>
+        <title>FindAFriend - Login</title>
+      </Helmet>
       <div className="flex items-center justify-center py-64 lg:py-0">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">

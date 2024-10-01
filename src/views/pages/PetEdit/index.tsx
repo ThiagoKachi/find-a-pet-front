@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/views/components/Switch';
 import { Textarea } from '@/views/components/Textarea';
 import { Loader2 } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { Controller } from 'react-hook-form';
 import { AlertConfirmPetDelete } from './components/ConfirmDelete';
 import { PetEditLoadingScreen } from './components/LoadingScreen';
@@ -37,6 +38,9 @@ export function EditPet() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 sm:p-8">
+      <Helmet>
+        <title>FindAFriend - Editar Pet</title>
+      </Helmet>
       <div className="flex justify-between mb-4 flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0">
         <h1 className="text-2xl font-bold text-zinc-700">Editar informações do Pet</h1>
         <div className='flex items-center gap-2'>

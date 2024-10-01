@@ -13,6 +13,7 @@ import {
 import { Textarea } from '@/views/components/Textarea';
 import { Link } from '@tanstack/react-router';
 import { ArrowLeft, Loader2 } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { Controller } from 'react-hook-form';
 import { useCreatePetController } from './useCreatePetController';
 
@@ -22,6 +23,9 @@ export function CreatePet() {
 
   return (
     <div className="w-full max-w-4xl mx-auto px-6 sm:px-8">
+      <Helmet>
+        <title>FindAFriend - Criar Novo Pet</title>
+      </Helmet>
       <div className="flex items-center gap-2 py-2">
         <Button
           variant="ghost"

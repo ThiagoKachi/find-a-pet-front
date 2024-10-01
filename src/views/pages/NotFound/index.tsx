@@ -1,8 +1,12 @@
 import { Link } from '@tanstack/react-router';
+import { Helmet } from 'react-helmet-async';
 
 export function NotFound() {
   return (
     <>
+      <Helmet>
+        <title>FindAFriend - 404</title>
+      </Helmet>
       <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center">
           <p className="text-lg font-semibold text-primary">404</p>

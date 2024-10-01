@@ -10,6 +10,7 @@ import { ErrorMessage } from '@/views/components/ErrorMessage';
 import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
 import { Loader2 } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { useSignUpController } from './useSignUpController';
 
 export function SignUp() {
@@ -17,6 +18,9 @@ export function SignUp() {
 
   return (
     <div className="flex items-center justify-center h-screen -mt-10">
+      <Helmet>
+        <title>FindAFriend - Criar conta</title>
+      </Helmet>
       <Card className="w-full max-w-lg mx-auto">
         <CardHeader>
           <CardTitle>Cadastro de ORG</CardTitle>

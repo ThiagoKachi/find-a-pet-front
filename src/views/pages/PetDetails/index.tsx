@@ -6,6 +6,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Separator } from '@/views/components/Separator';
 import { useRouter } from '@tanstack/react-router';
 import { ArrowLeft, BuildingIcon, PawPrint, PawPrintIcon, Warehouse } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { AdoptModalForm } from './components/AdoptModalForm';
 import { PetDetailsLoadingScreen } from './components/LoadingScreen';
 import { usePetDetailsController } from './usePetDetailsController';
@@ -21,6 +22,9 @@ export function PetDetails() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+      <Helmet>
+        <title>FindAFriend - Detalhe do Pet</title>
+      </Helmet>
       <div className="flex items-center gap-2">
         <Button
           variant="ghost"

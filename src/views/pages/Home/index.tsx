@@ -4,10 +4,12 @@ import { Button } from '@/views/components/Button';
 import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
 import { Loading } from '@/views/components/Loading';
+import { PaginationComponent } from '@/views/components/PaginationComponent';
 import { RadioGroup, RadioGroupItem } from '@/views/components/RadioGroup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/views/components/Select';
 import { useNavigate } from '@tanstack/react-router';
 import { Filter, PawPrint } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { PetCard } from './components/PetCard';
 import { useHomeController } from './useHomeController';
 
@@ -21,10 +23,23 @@ export default function Home() {
     isFilterOpen,
     handleOpenFilters,
     refetch,
+    pagination
   } = useHomeController();
+
+  if (isLoading) {
+    return (
+      <Loading
+        text='Carregando pets...'
+        icon={<PawPrint className='w-8 h-8 -mt-1' />}
+      />
+    );
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-slate-50">
+      <Helmet>
+        <title>FindAFriend - Home</title>
+      </Helmet>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-4 md:p-8">
 
         <div className="flex items-center gap-2">
@@ -116,23 +131,25 @@ export default function Home() {
           </div>
         )}
 
-        {isLoading ? (
-          <Loading
-            text='Carregando pets...'
-            icon={<PawPrint className='w-8 h-8 -mt-1' />}
+        {pets.length === 0 && (
+          <p className="text-center text-gray-500">Nenhum pet encontrado</p>
+        )}
+
+        <div className="grid gap-4 sm:grid-cols-2 md:gap-8 md:grid-cols-3 lg:grid-cols-4 mb-2">
+          {pets.length > 0 &&pets?.map((pet) => (
+            <PetCard key={pet.id} pet={pet} />
+          ))}
+        </div>
+
+        {pagination.totalPages > 1 && (
+          <PaginationComponent
+            prev={pagination.previousPage}
+            next={pagination.nextPage}
+            handlePage={pagination.setPage}
+            hasMore={pagination.hasNextPage}
+            pages={pagination.totalPages}
+            currentPage={pagination.currentPage}
           />
-        ) : (
-          <div className="grid gap-4 sm:grid-cols-2 md:gap-8 md:grid-cols-3 lg:grid-cols-4">
-            {pets.length > 0 ? (
-              pets?.map((pet) => (
-                <PetCard key={pet.id} pet={pet} />
-              ))
-            ) : (
-              <div className="col-span-4">
-                <p className="text-center text-gray-500">Nenhum pet encontrado</p>
-              </div>
-            )}
-          </div>
         )}
       </main>
     </div>

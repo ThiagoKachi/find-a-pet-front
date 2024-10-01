@@ -8,8 +8,6 @@ const schema = z.object({
   age: z.number().optional(),
   size: z.string().optional(),
   gender: z.string().optional(),
-  page: z.number().optional(),
-  limit: z.number().optional(),
 });
 
 export type PetsFilters = z.infer<typeof schema>;

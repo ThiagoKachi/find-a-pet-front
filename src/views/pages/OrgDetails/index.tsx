@@ -12,6 +12,7 @@ import { Input } from '@/views/components/Input';
 import { Label } from '@/views/components/Label';
 import { useRouter } from '@tanstack/react-router';
 import { ArrowLeft } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { OrgDetailsLoadingScreen } from './components/LoadingScreen';
 import { useOrgDetailsController } from './useOrgDetailsController';
 
@@ -26,6 +27,9 @@ export function OrgDetails() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-12">
+      <Helmet>
+        <title>FindAFriend - Detalhe da Org</title>
+      </Helmet>
       <div className="flex items-center gap-2">
         <Button
           variant="ghost"

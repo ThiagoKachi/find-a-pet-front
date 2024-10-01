@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { HelmetProvider } from 'react-helmet-async';
 import { useShallow } from 'zustand/react/shallow';
 import { useStore } from './app/store';
 import { routeTree } from './routeTree.gen';
@@ -34,26 +35,27 @@ function App() {
   })));
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Toaster
-        position='top-right'
-        richColors
-        expand
-        theme='light'
-        toastOptions={{}}
-      />
-      <div className="w-full h-screen bg-slate-50">
-        <RouterProvider
-          router={router}
-          context={{
-            isAuthenticated,
-            login,
-            logout,
-          }}
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <Toaster
+          position='top-right'
+          richColors
+          expand
+          theme='light'
+          toastOptions={{}}
         />
-      </div>
-
-    </QueryClientProvider>
+        <div className="w-full h-screen bg-slate-50">
+          <RouterProvider
+            router={router}
+            context={{
+              isAuthenticated,
+              login,
+              logout,
+            }}
+          />
+        </div>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 
